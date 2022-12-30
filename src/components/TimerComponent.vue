@@ -25,7 +25,7 @@ import store from '../store/store';
 onMounted(() => {
     setInterval(()=> {
         store.tick()
-    }, 150);
+    }, 1000);
 });
 
 </script>

@@ -1,16 +1,17 @@
 <template lang="">
     <form class="container">
-        <q-input filled v-model="time" mask="fulltime" :rules="['fulltime']">
+        <q-input input-class="time-input" bg-color="secondary" rounded filled v-model="time" mask="fulltime" :rules="['fulltime']">
             <template v-slot:append>
                 <q-icon name="access_time" class="cursor-pointer">
                     <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                         <q-time
+                            color="secondary"
                             v-model="time"
                             with-seconds
                             format24h
                         >
                             <div class="row items-center justify-end">
-                                <q-btn v-close-popup label="Close" color="primary" flat />
+                                <q-btn v-close-popup label="Close" color="secondary" flat />
                             </div>
                         </q-time>
                     </q-popup-proxy>
@@ -35,5 +36,9 @@ watch(time, () => {
 <style lang="css">
     .container {
         color: white;
+    }
+    .time-input {
+        font-size: 30px;
+        text-align: center;
     }
 </style>

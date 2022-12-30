@@ -19,7 +19,7 @@
         <slot></slot>
       <!-- </div>       -->
       <q-page-sticky position="bottom-right" :offset="[100, 100]">
-        <q-btn fab icon="edit" color="accent" />
+        <q-btn fab icon="edit" color="secondary" />
       </q-page-sticky>
     </q-page-container>
   </q-layout>
