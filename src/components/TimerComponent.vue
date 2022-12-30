@@ -1,58 +1,31 @@
 <template>
     <div class="q-pa-none timer-container">
+        <div>
+            <FormComponentVue/>
+        </div>
         <div class="time">
-            <div class="timer hour">{{state.hours < 10 ? `0${state.hours}` : `${state.hours}`}}</div> 
+            <div class="timer hour">{{store.hours < 10 ? `0${store.hours}` : `${store.hours}`}}</div> 
             <div class="separator">:</div>
-            <div class="timer minute">{{state.minutes < 10 ? `0${state.minutes}` : `${state.minutes}`}}</div>
+            <div class="timer minute">{{store.minutes < 10 ? `0${store.minutes}` : `${store.minutes}`}}</div>
             <div class="separator">:</div>
-            <div class="timer second">{{state.seconds < 10 ? `0${state.seconds}` : `${state.seconds}`}}</div> 
+            <div class="timer second">{{store.seconds < 10 ? `0${store.seconds}` : `${store.seconds}`}}</div> 
         </div> 
         <div class="buttons">
-            <q-btn class="button" v-if="state.paused" color="secondary" @click="start" label="Start"/>
-            <q-btn class="button" v-if="!state.paused" color="secondary" @click="stop" label="Pause"/>
-            <q-btn class="button" color="secondary" @click="reset" label="Reset"/>
+            <q-btn class="button" v-if="store.paused" color="secondary" @click="store.start()" label="Start"/>
+            <q-btn class="button" v-if="!store.paused" color="secondary" @click="store.stop()" label="Pause"/>
+            <q-btn class="button" color="secondary" @click="store.reset()" label="Reset"/>
         </div>
     </div>
 </template>
 <script setup>
-import { reactive, onMounted  } from 'vue'
-const state = reactive({ 
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-    paused: true,
-});
-
-function start() {
-    state.paused = false;
-}
-
-function tick() {
-    if(state.paused || state.over) return;
-    state.seconds++
-    if(state.seconds === 60){
-        state.minutes++;
-        state.seconds = 0;
-    }
-    if(state.minutes === 60) {
-        state.hours ++;
-        state.minutes = 0;
-    }
-}
-
-function stop() {
-    state.paused = true;
-}
-
-function reset() {
-    state.minutes = 0;
-    state.hours = 0;
-    state.seconds = 0;
-    state.paused = true;
-}
+import FormComponentVue from './FormComponent.vue';
+import { onMounted  } from 'vue';
+import store from '../store/store';
 
 onMounted(() => {
-    setInterval(tick, 1000)
+    setInterval(()=> {
+        store.tick()
+    }, 150);
 });
 
 </script>
