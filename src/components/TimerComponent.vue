@@ -4,11 +4,7 @@
             <FormComponentVue :isFullSettings="true"/>
         </div>
         <div class="time">
-            <div class="timer hour">{{store.hours < 10 ? `0${store.hours}` : `${store.hours}`}}</div> 
-            <div class="separator">:</div>
-            <div class="timer minute">{{store.minutes < 10 ? `0${store.minutes}` : `${store.minutes}`}}</div>
-            <div class="separator">:</div>
-            <div class="timer second">{{store.seconds < 10 ? `0${store.seconds}` : `${store.seconds}`}}</div> 
+            <div class="timer">{{store.timeLeft ? store.timeLeft : '00:00:00'}}</div>
         </div> 
         <div class="buttons">
             <q-btn class="button" v-if="store.paused" color="secondary" @click="store.start()" label="Start"/>
@@ -48,6 +44,17 @@
         <ModalComponentVue>
             <FormComponentVue :isFullSettings="false"/>
         </ModalComponentVue>
+        <q-dialog v-model="store.isNowTimeout" persistent>
+            <q-card>
+                <q-card-section class="column items-center">
+                    <span class="alert-text">Пора отвлечься и сделать перерыв!</span>
+                </q-card-section>
+                <q-card-actions align="center">
+                    <q-btn flat label="Начать перерыв" color="teal" v-close-popup />
+                    <q-btn flat label="Продолжить без перерыва" color="teal" v-close-popup />
+                </q-card-actions>
+            </q-card>
+        </q-dialog>
     </div>
 </template>
 <script setup>
@@ -91,12 +98,6 @@ onMounted(() => {
         justify-content: center;
         align-items: center;
     }
-    .separator {
-        font-size: 150px;
-        color: white;
-        margin: 0 20px;
-        line-height: 1;
-    }
     .timer {
         padding: 0;
         margin: 0;
@@ -129,5 +130,10 @@ onMounted(() => {
         min-width: 200px;
         min-height: 50px;
         border-radius: 3px;
+    }
+    .alert-text {
+        font-size: 50px;
+        text-align: center;
+        color: #26A69A;
     }
 </style>
