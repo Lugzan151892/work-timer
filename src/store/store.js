@@ -6,6 +6,11 @@ const store = reactive({
     seconds: 0,
     userTime: '00:00:00',
     paused: true,
+    isSettingsOpen: false,
+    timeouts: false,
+    timeoutsTime: 0,
+    backgroundMusic: false,
+    autoTimeouts: false,
     tick() {
         if(this.paused || this.over) return;
         if(this.hours === 0 && this.minutes === 0 && this.seconds === 0) return;
@@ -44,6 +49,13 @@ const store = reactive({
         let arrayOfTime = this.userTime.split(':');
         this.setTime(+arrayOfTime[0], +arrayOfTime[1], +arrayOfTime[2]);
         this.paused = true;
+    },
+    resetSettings() {
+        this.autoTimeouts = false;
+        this.timeouts = false;
+        this.timeoutsTime = 0;
+        this.backgroundMusic = false;
+        this.autoTimeouts = false;
     }
 });
 

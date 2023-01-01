@@ -1,7 +1,7 @@
 <template>
     <div class="q-pa-none timer-container">
         <div>
-            <FormComponentVue/>
+            <FormComponentVue :isFullSettings="true"/>
         </div>
         <div class="time">
             <div class="timer hour">{{store.hours < 10 ? `0${store.hours}` : `${store.hours}`}}</div> 
@@ -15,16 +15,31 @@
             <q-btn class="button" v-if="!store.paused" color="secondary" @click="store.stop()" label="Pause"/>
             <q-btn class="button" color="secondary" @click="store.reset()" label="Reset"/>
         </div>
+        <div class="settings-button">
+            <q-btn @click="openModal" class="button" color="secondary" label="Open full settings"/>
+        </div>
+        <div class="music-container" v-if="store.backgroundMusic">
+            <!-- <q-btn outline rounded color="primary" icon="outlinedPlayCircleOutline" />
+            <q-btn outline rounded color="primary" icon="play" /> -->
+        </div>
+        <ModalComponentVue>
+            <FormComponentVue :isFullSettings="false"/>
+        </ModalComponentVue>
     </div>
 </template>
 <script setup>
 import FormComponentVue from './FormComponent.vue';
-import { onMounted  } from 'vue';
+import { onMounted, ref  } from 'vue';
+import ModalComponentVue from './ModalComponent.vue';
 import store from '../store/store';
+
+const openModal = () => {
+    store.isSettingsOpen = !store.isSettingsOpen;
+};
 
 onMounted(() => {
     setInterval(()=> {
-        store.tick()
+        store.tick();
     }, 1000);
 });
 
@@ -67,5 +82,19 @@ onMounted(() => {
     .button {
         padding: 20px;
         min-width: 200px;
+    }
+    .settings-button {
+        margin-top: 50px;
+    }
+    .music-container {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        /* background-color: #26A69A; */
+        min-width: 300px;
+        background-color: white;
+        min-height: 50px;
+        border-radius: 3px;
     }
 </style>

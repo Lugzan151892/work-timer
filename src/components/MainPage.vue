@@ -15,18 +15,13 @@
       <!-- drawer content -->
     </q-drawer>
     <q-page-container>
-      <!-- <div class="full-width column wrap justify-center items-center content-center"> -->
-        <slot></slot>
-      <!-- </div>       -->
-      <q-page-sticky position="bottom-right" :offset="[100, 100]">
-        <q-btn fab icon="edit" color="secondary" />
-      </q-page-sticky>
+      <slot></slot>
     </q-page-container>
   </q-layout>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
 const leftDrawerOpen = ref(false);
 const toggleLeftDrawer = () => {
