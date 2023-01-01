@@ -11,6 +11,8 @@ const store = reactive({
     timeoutsTime: 0,
     backgroundMusic: false,
     autoTimeouts: false,
+    isMusicPaused: true,
+    isMuted: true,
     tick() {
         if(this.paused || this.over) return;
         if(this.hours === 0 && this.minutes === 0 && this.seconds === 0) return;

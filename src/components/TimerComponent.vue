@@ -19,8 +19,31 @@
             <q-btn @click="openModal" class="button" color="secondary" label="Open full settings"/>
         </div>
         <div class="music-container" v-if="store.backgroundMusic">
-            <!-- <q-btn outline rounded color="primary" icon="outlinedPlayCircleOutline" />
-            <q-btn outline rounded color="primary" icon="play" /> -->
+            <q-btn @click="play" v-if="store.isMusicPaused" rounded color="teal" icon="play_circle_outline">
+                <q-tooltip class="bg-teal text-black shadow-4" :offset="[10, 10]">
+                    Воспроизвести
+                </q-tooltip>
+            </q-btn>
+            <q-btn @click="play" v-if="!store.isMusicPaused" rounded color="teal" icon="pause_circle">
+                <q-tooltip class="bg-teal text-black shadow-4" :offset="[10, 10]">
+                    Пауза
+                </q-tooltip>
+            </q-btn>
+            <q-btn rounded color="teal" icon="volume_up">
+                <q-tooltip class="bg-teal text-black shadow-4" :offset="[10, 10]">
+                    Изменить громкость
+                </q-tooltip>
+            </q-btn>
+            <q-btn @click="muteMusic" rounded v-if="!store.isMuted" icon="volume_off"> 
+                <q-tooltip class="bg-teal text-black shadow-4" :offset="[10, 10]">
+                    Выключить звук
+                </q-tooltip>
+            </q-btn>
+            <q-btn @click="muteMusic" rounded v-if="store.isMuted" color='red' icon="volume_off">
+                <q-tooltip class="bg-red text-black shadow-4" :offset="[10, 10]">
+                    Включить звук
+                </q-tooltip>
+            </q-btn>
         </div>
         <ModalComponentVue>
             <FormComponentVue :isFullSettings="false"/>
@@ -29,13 +52,21 @@
 </template>
 <script setup>
 import FormComponentVue from './FormComponent.vue';
-import { onMounted, ref  } from 'vue';
+import { onMounted  } from 'vue';
 import ModalComponentVue from './ModalComponent.vue';
 import store from '../store/store';
 
 const openModal = () => {
     store.isSettingsOpen = !store.isSettingsOpen;
 };
+
+const muteMusic = () => {
+    store.isMuted = !store.isMuted
+}
+
+const play = () => {
+    store.isMusicPaused = !store.isMusicPaused
+}
 
 onMounted(() => {
     setInterval(()=> {
@@ -87,13 +118,15 @@ onMounted(() => {
         margin-top: 50px;
     }
     .music-container {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
         position: absolute;
         bottom: 30px;
         left: 50%;
         transform: translate(-50%, -50%);
         /* background-color: #26A69A; */
-        min-width: 300px;
-        background-color: white;
+        min-width: 200px;
         min-height: 50px;
         border-radius: 3px;
     }

@@ -20,16 +20,18 @@
         </q-input>
         <div class="settings-container" v-show="!props.isFullSettings">
             <q-checkbox class="q-mb-md" color="teal" v-model="store.timeouts" label="Установить перерывы"/>
-            <div v-if="store.timeouts">
-                <p>{{`Делать перерыв каждые ${store.timeoutsTime} минут`}}</p>
-                <q-input   
-                    color="teal"                 
-                    v-model.number="store.timeoutsTime"
-                    type="number"
-                    filled
-                    style="max-width: 200px"
-                />
-            </div>
+            <q-slide-transition>
+                <div v-show="store.timeouts">
+                    <p>{{`Делать перерыв каждые ${store.timeoutsTime} минут`}}</p>
+                    <q-input   
+                        color="teal"                 
+                        v-model.number="store.timeoutsTime"
+                        type="number"
+                        filled
+                        style="max-width: 200px"
+                    />
+                </div>
+            </q-slide-transition>            
             <q-checkbox class="q-mb-md" color="teal" v-model="store.backgroundMusic" label="Включить фоновую музыку во время работы таймера"/>
             <q-checkbox class="q-mb-md" color="teal" v-model="store.autoTimeouts" label="Останавливать таймер и запускать перерыв автоматически"/>
             <div class="buttons-container">
