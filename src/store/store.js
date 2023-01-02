@@ -13,12 +13,13 @@ const store = reactive({
     paused: true,
     isSettingsOpen: false,
     timeouts: false,
-    isNowTimeout: true,
+    isNowTimeout: false,
     timeoutsTime: 0,
     backgroundMusic: false,
     autoTimeouts: false,
     isMusicPaused: true,
-    isMuted: true,
+    currentAudioVolume: 0.1,
+    isMuted: false,
     tick(){      
         this.timeLeft = `${store.hours < 10 ? `0${store.hours}` : `${store.hours}`}:${store.minutes < 10 ? `0${store.minutes}` : `${store.minutes}`}:${store.seconds < 10 ? `0${store.seconds}` : `${store.seconds}`}`  
         if(this.paused || this.over) return;

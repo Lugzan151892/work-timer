@@ -35,7 +35,7 @@
             <q-checkbox class="q-mb-md" color="teal" v-model="store.backgroundMusic" label="Включить фоновую музыку во время работы таймера"/>
             <q-checkbox class="q-mb-md" color="teal" v-model="store.autoTimeouts" label="Останавливать таймер и запускать перерыв автоматически"/>
             <div class="buttons-container">
-                <q-btn class="button" color="secondary" @click="store.isSettingsOpen = false" label="Сохранить"/>
+                <q-btn class="button" color="secondary" @click="saveSettings" label="Сохранить"/>
                 <q-btn class="button" color="secondary" @click="store.resetSettings()" label="Сбросить настройки"/>
             </div>
         </div>
@@ -47,8 +47,16 @@ import store from '../store/store';
 
 const time = ref(store.userTime);
 const props = defineProps({
-    isFullSettings: Boolean
+    isFullSettings: Boolean,
+    play: Function,
 });
+
+const saveSettings = () => {
+    if(store.backgroundMusic) {
+        props.play();
+    }
+    store.isSettingsOpen = false
+} 
 
 watch(time, () => {
     const arrayOfTime = time.value.split(':');
