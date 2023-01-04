@@ -31,6 +31,6 @@ const toggleLeftDrawer = () => {
 </script>
 <style scoped>
 .header {
-  background-color: #7EA799 !important;
+  background-color: #26A69A !important;
 }
 </style>

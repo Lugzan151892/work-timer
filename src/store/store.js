@@ -7,7 +7,6 @@ const store = reactive({
     currentTimeInSeconds: 0,
     totalTimeInSeconds: 0,
     nextTimeout: 0,
-    isTimeout: false,
     userTime: '00:00:00',
     timeLeft: '',
     paused: true,
@@ -16,17 +15,25 @@ const store = reactive({
     isNowTimeout: false,
     timeoutsTime: 0,
     backgroundMusic: false,
+    audioComponent: null,
     autoTimeouts: false,
     isMusicPaused: true,
     currentAudioVolume: 0.1,
     isMuted: false,
     tick(){      
         this.timeLeft = `${store.hours < 10 ? `0${store.hours}` : `${store.hours}`}:${store.minutes < 10 ? `0${store.minutes}` : `${store.minutes}`}:${store.seconds < 10 ? `0${store.seconds}` : `${store.seconds}`}`  
-        if(this.paused || this.over) return;
+        if(this.paused) return;
         if(this.hours === 0 && this.minutes === 0 && this.seconds === 0) return;
         this.calculateCurrentTime();
+        if (this.currentTimeInSeconds === this.nextTimeout) {
+            this.isNowTimeout = true;
+            if(this.autoTimeouts) {
+                this.paused === true;
+                return;
+            }
+        }
         this.seconds--
-        if(this.seconds === 0 || this.seconds < 0){
+        if(this.seconds < 0){
             if(this.minutes === 0 && this.hours === 0) {
                 this.reset();
                 return;
@@ -84,7 +91,10 @@ const store = reactive({
         if(this.timeoutsTime === 0) return;
         this.nextTimeout = this.currentTimeInSeconds - (this.timeoutsTime * 60);
     },
-    
+    playMusic () {
+        this.isMusicPaused = false;
+        this.audioComponent.play();
+    }
 });
 
 export default store;
