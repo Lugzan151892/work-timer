@@ -14,6 +14,8 @@ const store = reactive({
     timeouts: false,
     isNowTimeout: false,
     timeoutsTime: 0,
+    timeoutsDuration: 0,
+    isTimeoutTimerOpen: false,
     backgroundMusic: false,
     audioComponent: null,
     autoTimeouts: false,
@@ -29,6 +31,8 @@ const store = reactive({
             this.isNowTimeout = true;
             if(this.autoTimeouts) {
                 this.paused === true;
+                this.isTimeoutTimerOpen = true;
+                this.isNowTimeout = true;
                 return;
             }
         }
@@ -91,9 +95,26 @@ const store = reactive({
         if(this.timeoutsTime === 0) return;
         this.nextTimeout = this.currentTimeInSeconds - (this.timeoutsTime * 60);
     },
-    playMusic () {
+    playMusic() {
         this.isMusicPaused = false;
         this.audioComponent.play();
+    },
+    continueWithoutTimeout() {
+        this.calculateNextTimeout();
+        this.isNowTimeout = false;
+        this.paused = false;
+        if(this.backgroundMusic) {
+            this.playMusic();
+        }
+    },
+    endTimeout(){
+        this.isTimeoutTimerOpen = false;
+        this.isNowTimeout = false;
+        this.calculateNextTimeout();
+        this.paused = false;
+        if(this.backgroundMusic) {
+            this.playMusic();
+        }
     }
 });
 

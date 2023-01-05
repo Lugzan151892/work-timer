@@ -22,10 +22,19 @@
             <q-checkbox class="q-mb-md" color="teal" v-model="store.timeouts" label="Установить перерывы"/>
             <q-slide-transition>
                 <div v-show="store.timeouts">
-                    <p class="q-ml-sm">{{`Делать перерыв каждые ${store.timeoutsTime} минут`}}</p>
+                    <p class="q-ml-sm q-mb-none">{{`Делать перерыв каждые ${store.timeoutsTime} минут`}}</p>
                     <q-input   
                         color="teal"                 
                         v-model.number="store.timeoutsTime"
+                        type="number"
+                        filled
+                        style="max-width: 200px"
+                        class="q-ml-sm q-mb-sm"
+                    />
+                    <p class="q-ml-sm q-mb-none">{{`Продолжительность перерыва ${store.timeoutsDuration} минут`}}</p>
+                    <q-input   
+                        color="teal"                 
+                        v-model.number="store.timeoutsDuration"
                         type="number"
                         filled
                         style="max-width: 200px"
