@@ -16,7 +16,7 @@
         loop
         volume="1"
     >
-        <source src="assets/alert.mp3" />
+        <source src="../audio/alert.mp3" />
     </audio>
     <TimerModalVue v-if="store.isTimeoutTimerOpen" :audioAlert="audioTimeout"/>
 </template>
