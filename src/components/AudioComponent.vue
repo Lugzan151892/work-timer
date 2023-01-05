@@ -40,8 +40,8 @@
             loop
             :volume="store.currentAudioVolume"
         >
-            <source src="../assets/ocean.mp3" />
-            <source src="../assets/rain.mp3" />
+            <source src="assets/ocean.mp3" />
+            <source src="assets/rain.mp3" />
         </audio>
     </div>
 </template>

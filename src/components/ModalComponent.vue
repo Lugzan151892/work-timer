@@ -15,8 +15,4 @@
 <script setup>
 import store from '../store/store';
 
-
 </script>
-<style lang="css">
-    
-</style>

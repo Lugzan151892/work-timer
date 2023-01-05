@@ -44,7 +44,7 @@ onMounted(() => {
         justify-content: center;
         flex-direction: column;
         align-items: center;
-        background: url('../assets/jonatan-pie-OPOg0fz5uIs-unsplash (1).jpg');
+        background: url('assets/jonatan-pie-OPOg0fz5uIs-unsplash (1).jpg');
         background-size: cover;
     }    
     .timer {
