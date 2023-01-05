@@ -5,7 +5,7 @@
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
         <q-toolbar-title class="header-container">
           <q-avatar>
-            <img src="assets/icons8-time-machine-100.png">
+            <img src="../images/icons8-time-machine-100.png">
           </q-avatar>
           <p class="text">
             Work-learn Timer

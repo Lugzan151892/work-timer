@@ -40,8 +40,8 @@
             loop
             :volume="store.currentAudioVolume"
         >
-            <source src="assets/ocean.mp3" />
-            <source src="assets/rain.mp3" />
+            <source src="../audio/ocean.mp3" />
+            <source src="../audio/rain.mp3" />
         </audio>
     </div>
 </template>
@@ -79,7 +79,6 @@ const pause = () => {
         bottom: 30px;
         left: 50%;
         transform: translate(-50%, -50%);
-        /* background-color: #26A69A; */
         min-width: 200px;
         min-height: 50px;
         border-radius: 3px;
