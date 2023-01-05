@@ -1,79 +1,33 @@
 <template>
     <div class="q-pa-none timer-container">
-        <div>
-            <FormComponentVue :isFullSettings="true"/>
-        </div>
-        <div class="time">
-            <div class="timer">{{store.timeLeft ? store.timeLeft : '00:00:00'}}</div>
-        </div> 
+        <FormComponentVue :isFullSettings="true"/>
+        <div class="timer">{{store.timeLeft ? store.timeLeft : '00:00:00'}}</div>
         <div class="buttons">
-            <q-btn class="button" v-if="store.paused" color="secondary" @click="store.start()" label="Start"/>
-            <q-btn class="button" v-if="!store.paused" color="secondary" @click="store.stop()" label="Pause"/>
-            <q-btn class="button" color="secondary" @click="store.reset()" label="Reset"/>
+            <q-btn class="button" v-if="store.paused" color="secondary" @click="store.start()" label="Пуск"/>
+            <q-btn class="button" v-if="!store.paused" color="secondary" @click="store.stop()" label="Пауза"/>
+            <q-btn class="button" color="secondary" @click="store.reset()" label="Сбросить таймер"/>
         </div>
         <div class="settings-button">
-            <q-btn @click="openModal" class="button" color="secondary" label="Open full settings"/>
+            <q-btn @click="openModal" class="button" color="secondary" label="Дополнительные настройки"/>
         </div>
-        <div class="music-container" v-if="store.backgroundMusic">
-            <q-btn @click="play" v-if="store.isMusicPaused" rounded color="teal" icon="play_circle_outline">
-                <q-tooltip class="bg-teal text-black shadow-4" :offset="[10, 10]">
-                    Воспроизвести
-                </q-tooltip>
-            </q-btn>
-            <q-btn @click="play" v-if="!store.isMusicPaused" rounded color="teal" icon="pause_circle">
-                <q-tooltip class="bg-teal text-black shadow-4" :offset="[10, 10]">
-                    Пауза
-                </q-tooltip>
-            </q-btn>
-            <q-btn rounded color="teal" icon="volume_up">
-                <q-tooltip class="bg-teal text-black shadow-4" :offset="[10, 10]">
-                    Изменить громкость
-                </q-tooltip>
-            </q-btn>
-            <q-btn @click="muteMusic" rounded v-if="!store.isMuted" icon="volume_off"> 
-                <q-tooltip class="bg-teal text-black shadow-4" :offset="[10, 10]">
-                    Выключить звук
-                </q-tooltip>
-            </q-btn>
-            <q-btn @click="muteMusic" rounded v-if="store.isMuted" color='red' icon="volume_off">
-                <q-tooltip class="bg-red text-black shadow-4" :offset="[10, 10]">
-                    Включить звук
-                </q-tooltip>
-            </q-btn>
-        </div>
+        <AudioComponentVue/>
         <ModalComponentVue>
             <FormComponentVue :isFullSettings="false"/>
         </ModalComponentVue>
-        <q-dialog v-model="store.isNowTimeout" persistent>
-            <q-card>
-                <q-card-section class="column items-center">
-                    <span class="alert-text">Пора отвлечься и сделать перерыв!</span>
-                </q-card-section>
-                <q-card-actions align="center">
-                    <q-btn flat label="Начать перерыв" color="teal" v-close-popup />
-                    <q-btn flat label="Продолжить без перерыва" color="teal" v-close-popup />
-                </q-card-actions>
-            </q-card>
-        </q-dialog>
+        <TimeoutModalVue v-if="store.isNowTimeout" />
     </div>
 </template>
 <script setup>
 import FormComponentVue from './FormComponent.vue';
 import { onMounted  } from 'vue';
 import ModalComponentVue from './ModalComponent.vue';
+import AudioComponentVue from './AudioComponent.vue';
+import TimeoutModalVue from './TimeoutModal.vue';
 import store from '../store/store';
 
 const openModal = () => {
     store.isSettingsOpen = !store.isSettingsOpen;
 };
-
-const muteMusic = () => {
-    store.isMuted = !store.isMuted
-}
-
-const play = () => {
-    store.isMusicPaused = !store.isMusicPaused
-}
 
 onMounted(() => {
     setInterval(()=> {
@@ -82,7 +36,7 @@ onMounted(() => {
 });
 
 </script>
-<style lang="css" scoped>
+<style lang="css">
     .timer-container {
         height: calc(100vh - 51px);
         width: 100%;
@@ -92,12 +46,7 @@ onMounted(() => {
         align-items: center;
         background: url('../assets/jonatan-pie-OPOg0fz5uIs-unsplash (1).jpg');
         background-size: cover;
-    }
-    .time {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+    }    
     .timer {
         padding: 0;
         margin: 0;
@@ -117,19 +66,6 @@ onMounted(() => {
     }
     .settings-button {
         margin-top: 50px;
-    }
-    .music-container {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        position: absolute;
-        bottom: 30px;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        /* background-color: #26A69A; */
-        min-width: 200px;
-        min-height: 50px;
-        border-radius: 3px;
     }
     .alert-text {
         font-size: 50px;

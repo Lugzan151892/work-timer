@@ -22,20 +22,31 @@
             <q-checkbox class="q-mb-md" color="teal" v-model="store.timeouts" label="Установить перерывы"/>
             <q-slide-transition>
                 <div v-show="store.timeouts">
-                    <p>{{`Делать перерыв каждые ${store.timeoutsTime} минут`}}</p>
+                    <p class="q-ml-sm q-mb-none">{{`Делать перерыв каждые ${store.timeoutsTime} минут`}}</p>
                     <q-input   
                         color="teal"                 
                         v-model.number="store.timeoutsTime"
                         type="number"
                         filled
                         style="max-width: 200px"
+                        class="q-ml-sm q-mb-sm"
                     />
+                    <p class="q-ml-sm q-mb-none">{{`Продолжительность перерыва ${store.timeoutsDuration} минут`}}</p>
+                    <q-input   
+                        color="teal"                 
+                        v-model.number="store.timeoutsDuration"
+                        type="number"
+                        filled
+                        style="max-width: 200px"
+                        class="q-ml-sm"
+                    />
+                    <q-checkbox class="q-mt-md auto-timeout" color="teal" v-model="store.autoTimeouts" label="Останавливать таймер и запускать перерыв автоматически"/>                    
                 </div>
             </q-slide-transition>            
-            <q-checkbox class="q-mb-md" color="teal" v-model="store.backgroundMusic" label="Включить фоновую музыку во время работы таймера"/>
-            <q-checkbox class="q-mb-md" color="teal" v-model="store.autoTimeouts" label="Останавливать таймер и запускать перерыв автоматически"/>
+            <q-checkbox class="q-mb-md q-mt-md" color="teal" v-model="store.backgroundMusic" label="Включить фоновую музыку во время работы таймера"/> 
+            
             <div class="buttons-container">
-                <q-btn class="button" color="secondary" @click="store.isSettingsOpen = false" label="Сохранить"/>
+                <q-btn class="button" color="secondary" @click="saveSettings" label="Сохранить"/>
                 <q-btn class="button" color="secondary" @click="store.resetSettings()" label="Сбросить настройки"/>
             </div>
         </div>
@@ -47,18 +58,27 @@ import store from '../store/store';
 
 const time = ref(store.userTime);
 const props = defineProps({
-    isFullSettings: Boolean
+    isFullSettings: Boolean,
 });
+
+const saveSettings = () => {
+    if(store.backgroundMusic) {
+        store.playMusic();
+    }
+    store.isSettingsOpen = false
+}
 
 watch(time, () => {
     const arrayOfTime = time.value.split(':');
     store.setTime(+arrayOfTime[0], +arrayOfTime[1], +arrayOfTime[2]);
     store.saveTime(time.value);
 });
+
 </script>
 <style lang="css" scoped>
     .container {
         color: white;
+        
     }
     .time-input {
         font-size: 30px;
@@ -66,6 +86,7 @@ watch(time, () => {
     }
     .settings-container {
         color: black;
+        width: 100%;
     }
     .buttons-container {
         width: 100%;
@@ -74,5 +95,8 @@ watch(time, () => {
     }
     .button {
         min-width: 200px;
+    }
+    .auto-timeout {
+        min-width: 528px;
     }
 </style>
